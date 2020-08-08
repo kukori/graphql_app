@@ -13,9 +13,11 @@
   "author": "vattila",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-graphql": "^0.11.0",
-    "graphql": "^15.3.0"
+    "graphql": "^15.3.0",
+    "mongoose": "^5.9.28"
   },
   "devDependencies": {
     "concurrently": "^5.3.0",
