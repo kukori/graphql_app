@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation, gql } from '@apollo/client';
 import { getAuthors, addBookMutation } from '../queries/queries';
 
 const AddBook = () => {
@@ -8,7 +8,28 @@ const AddBook = () => {
     const [name, setName] = useState('')
     const [genre, setGenre] = useState('')
     const [authorId, setAuthorId] = useState('')
-    const [addBook, { book }] = useMutation(addBookMutation);
+    const [addBook] = useMutation(addBookMutation, {
+        update(cache, { data: { addBook } }) {
+          cache.modify({
+            fields: {
+              books(existingBooks = []) {
+                const newBookRef = cache.writeFragment({
+                  data: addBook,
+                  fragment: gql`
+                    fragment NewBook on Book {
+                      id
+                      name
+                      genre
+                      authorId
+                    }
+                  `
+                });
+                return [...existingBooks, newBookRef];
+              }
+            }
+          });
+        }
+      });
 
     const onAddClick = (event) => {
         event.preventDefault();

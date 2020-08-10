@@ -8,6 +8,7 @@ const BookType = new GraphQLObjectType({
         id: { type: GraphQLID },
         name: { type: GraphQLString },
         genre: { type: GraphQLString },
+        authorId: { type: GraphQLID },
         author: {
             type: AuthorType,
             resolve(parent, args) {
