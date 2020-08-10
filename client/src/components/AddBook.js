@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import { useQuery } from '@apollo/client';
-import { getAuthors } from '../queries/queries';
+import { useQuery, useMutation } from '@apollo/client';
+import { getAuthors, addBookMutation } from '../queries/queries';
 
 const AddBook = () => {
 
@@ -8,10 +8,12 @@ const AddBook = () => {
     const [name, setName] = useState('')
     const [genre, setGenre] = useState('')
     const [authorId, setAuthorId] = useState('')
+    const [addBook, { book }] = useMutation(addBookMutation);
 
     const onAddClick = (event) => {
         event.preventDefault();
         console.log({name, genre, authorId});
+        addBook({ variables: { name, genre, authorId } });
         setName('');
         setGenre('');
         setAuthorId('');
